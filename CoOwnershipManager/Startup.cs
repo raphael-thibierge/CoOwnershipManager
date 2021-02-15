@@ -31,7 +31,7 @@ namespace CoOwnershipManager
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<AppUser, IdentityRole>(
+            services.AddDefaultIdentity<ApplicationUser>(
                 options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoOwnershipManager.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoOwnershipManager.Controllers
 {
+    [Authorize]
     public class ApartmentController : Controller
     {
         private readonly ApplicationDbContext _context;

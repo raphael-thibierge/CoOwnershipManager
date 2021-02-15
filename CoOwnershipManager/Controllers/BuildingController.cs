@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoOwnershipManager.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoOwnershipManager.Controllers
 {
+    [Authorize]
     public class BuildingController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public BuildingController(ApplicationDbContext context, UserManager<AppUser> userManager)
+        public BuildingController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
