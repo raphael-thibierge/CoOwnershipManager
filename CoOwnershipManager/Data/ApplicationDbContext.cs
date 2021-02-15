@@ -12,5 +12,18 @@ namespace CoOwnershipManager.Data
             : base(options)
         {
         }
+
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Apartment> Apartments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Building>()
+                .HasMany<Apartment>(b => b.Apartments)
+                .WithOne(a => a.Building)
+                .HasForeignKey(a => a.BuildingId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
