@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CoOwnershipManager.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "IsAdmin")]
     public class ApartmentController : Controller
     {
         private readonly ApplicationDbContext _context;

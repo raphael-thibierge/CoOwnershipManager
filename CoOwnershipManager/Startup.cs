@@ -53,10 +53,11 @@ namespace CoOwnershipManager
             services.AddAuthorization(options =>
             {
                 // fallback policy : user is authenticated
-                // TODO : understand Fallback behavior
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
+                // Apply authentication required over all app (except login/register)
+                //
+                //options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                //    .RequireAuthenticatedUser()
+                //    .Build();
 
                 // IsAdmin policy
                 options.AddPolicy("IsAdmin", policy =>

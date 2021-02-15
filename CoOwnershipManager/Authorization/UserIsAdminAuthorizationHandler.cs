@@ -25,7 +25,8 @@ namespace CoOwnershipManager.Authorization
 
             // TODO : Find a way to get ApplicationUser from context without a DB query (if possible)
             var user = _dbContext.Users.Find(_userManager.GetUserId(context.User));
-            
+
+            // TODO : Find a way to avoid anonymous users in this handler
             if (user == null)
             {
                 context.Fail();
