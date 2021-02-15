@@ -22,10 +22,15 @@ namespace CoOwnershipManager.Authorization
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserIsAdminRequirements requirement)
         {
-            var user = _dbContext.Users.Find(_userManager.GetUserId(context.User));
-             
 
-            if (user.IsAdmin)
+            // TODO : Find a way to get ApplicationUser from context without a DB query (if possible)
+            var user = _dbContext.Users.Find(_userManager.GetUserId(context.User));
+            
+            if (user == null)
+            {
+                context.Fail();
+            }
+            else if (user.IsAdmin)
             {
                 context.Succeed(requirement);
             }
