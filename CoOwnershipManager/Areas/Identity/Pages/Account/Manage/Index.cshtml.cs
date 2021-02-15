@@ -24,6 +24,8 @@ namespace CoOwnershipManager.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -42,6 +44,10 @@ namespace CoOwnershipManager.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+
+            // TODO load async ... ? 
+            FirstName = user.FirstName;
+            LastName = user.LastName;
 
             Username = userName;
 
