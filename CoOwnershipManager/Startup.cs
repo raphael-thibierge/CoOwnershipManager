@@ -33,26 +33,39 @@ namespace CoOwnershipManager
                 options.UseSqlite(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+
+            
+            // Configure default ASP.NET Core Identity to use our custom model ApplicationUser
             services.AddDefaultIdentity<ApplicationUser>(
+                // disable account confirmation by email
                 options => options.SignIn.RequireConfirmedAccount = false)
+                // map database context
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                // 
                 .AddDefaultTokenProviders();
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-
+            // Doc : https://docs.microsoft.com/fr-fr/aspnet/core/security/authorization/introduction?view=aspnetcore-3.1
+            // Configure custom authorizations policies
             services.AddAuthorization(options =>
             {
+                // fallback policy : user is authenticated
+                // TODO : understand Fallback behavior
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
 
+                // IsAdmin policy
                 options.AddPolicy("IsAdmin", policy =>
-                    policy.AddRequirements(new UserIsAdminRequirements())
+                    policy.AddRequirements(new UserIsAdminRequirements())  
                 );
             });
 
+            // Register IsAdmin policy handler
+            // TODO : `services.AddScoped` VS `services.AddSingleton`
             services.AddScoped<IAuthorizationHandler, UserIsAdminAuthorizationHandler>();
 
         }
@@ -72,15 +85,37 @@ namespace CoOwnershipManager
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            // Allow to sever statics files, stored in wwwroot, such as images, js, css, etc...
             app.UseStaticFiles();
 
+            // https://docs.microsoft.com/fr-fr/aspnet/core/fundamentals/routing?view=aspnetcore-3.1
+            // UseRouting adds route matching to the middleware pipeline.
+            // This middleware looks at the set of endpoints defined in the app,
+            // and selects the best match based on the request.
             app.UseRouting();
 
+
+            // https://docs.microsoft.com/fr-fr/aspnet/core/security/authentication/?view=aspnetcore-3.1
+            // - Call UseAuthentication before any middleware that depends on users being authenticated
+            // - After UseRouting, so that route information is available for authentication decisions.
+            // - Before UseEndpoints, so that users are authenticated before accessing the endpoints.
+            //
+            // It enables the authentication middleware, and details are define in ConfigureServices method
+            //
+            // TODO : Identity Scaffolding https://docs.microsoft.com/fr-fr/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-3.1&tabs=visual-studio#scaffold-identity-into-a-razor-project-with-authorization
             app.UseAuthentication();
+
+
+            // Enables authorization middleware to use roles and policies
             app.UseAuthorization();
 
+            // https://docs.microsoft.com/fr-fr/aspnet/core/fundamentals/routing?view=aspnetcore-3.1
+            // UseEndpoints adds endpoint execution to the middleware pipeline.
+            // It runs the delegate associated with the selected endpoint.
             app.UseEndpoints(endpoints =>
             {
+                // define path pattern to match the good controller's method
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
