@@ -12,6 +12,8 @@ using CoOwnershipManager.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
+using CoOwnershipManager.Authorization;
 
 namespace CoOwnershipManager
 {
@@ -38,6 +40,21 @@ namespace CoOwnershipManager
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.AddPolicy("IsAdmin", policy =>
+                    policy.AddRequirements(new UserIsAdminRequirements())
+                );
+            });
+
+            services.AddScoped<IAuthorizationHandler, UserIsAdminAuthorizationHandler>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
