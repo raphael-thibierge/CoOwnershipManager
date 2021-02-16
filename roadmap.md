@@ -7,6 +7,6 @@
 - [ ] Add database seeds for demo usage
 - [x] Override Identity views (login, register, profil,...)
 - [x] Update profile form to display and update `ApplicationUser`attributes
-- [ ] React components integration
+- [x] React components integration
 - [x] Docker-compose
 - [ ] Application env file
