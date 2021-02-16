@@ -10,4 +10,4 @@ docker-compose build
 docker-compose up -d
 ```
 
-Open browser at [](http://localhost:8080)
+Open browser at [http://localhost:8080](http://localhost:8080)
