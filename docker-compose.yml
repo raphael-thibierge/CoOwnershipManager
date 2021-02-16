@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+
+  app:
+    container_name: coownershipmanager_app
+    build:
+      context: .
+      dockerfile: app.Dockerfile 
+      target: final
+    ports:
+      - 8080:80
+      - 4443:443
+    volumes:
+      - aspnet_keys:/root/.aspnet/
+
+  db:
+    container_name: coownershipmanager_db
+    image: postgres:13.2-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./PostgresMigrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_DB: CoOwnershipManager
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+
+
+volumes:
+  db_data:
+  aspnet_keys:

@@ -1,10 +1,12 @@
 ﻿# ROADMAP / TODO
 
 - [ ] Implement complete schema
-- [ ] MySQL or Posgres instead of SQLite
+- [x] Postgres instead of SQLite
 - [ ] Implement users's roles
 - [ ] Improve IsAdmin authorization, using Role or Claim, without manually querring database
 - [ ] Add database seeds for demo usage
-- [ ] Override Identity views (login, register, profil,...)
+- [x] Override Identity views (login, register, profil,...)
+- [x] Update profile form to display and update `ApplicationUser`attributes
 - [ ] React components integration
-- [ ] Docker-compose
+- [x] Docker-compose
+- [ ] Application env file

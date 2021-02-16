@@ -9,4 +9,5 @@
 - [ ] Unit testing
 - [ ] Async task
 - [ ] Global settings (global.json)
-- [ ] Understand differences between core 3.1 vs 5.0 to avoid confusion between versions and namings
+- [x] Understand differences between core 3.1 vs 5.0 to avoid confusion between versions and namings
+- [ ] Env management

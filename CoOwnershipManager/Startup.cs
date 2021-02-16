@@ -30,8 +30,8 @@ namespace CoOwnershipManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(
+                    Configuration.GetConnectionString("LocalPostgresConnection")));
 
 
             
@@ -77,7 +77,10 @@ namespace CoOwnershipManager
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+
+                // upgrade to net5
+                app.UseMigrationsEndPoint(); 
+                //app.UseDatabaseErrorPage();
             }
             else
             {
