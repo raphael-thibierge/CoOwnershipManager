@@ -1,6 +1,6 @@
 ﻿# ROADMAP / TODO
 
-- [ ] Implement complete schema
+- [x] Implement complete schema
 - [x] Postgres instead of SQLite
 - [ ] Implement users's roles
 - [ ] Improve IsAdmin authorization, using Role or Claim, without manually querring database

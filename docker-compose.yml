@@ -22,7 +22,7 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./PostgresMigrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./PostgresMigrations/:/docker-entrypoint-initdb.d/
     environment:
       POSTGRES_DB: CoOwnershipManager
       POSTGRES_USER: user
