@@ -29,6 +29,21 @@ services:
       POSTGRES_PASSWORD: secret
 
 
+  search:
+   container_name: coownershipmanager_search
+   image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+   ports:
+    - 9200:9200
+   volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+   environment:
+    - xpack.monitoring.enabled=true
+    - xpack.watcher.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - discovery.type=single-node
+
+
 volumes:
   db_data:
   aspnet_keys:
+  elasticsearch-data:

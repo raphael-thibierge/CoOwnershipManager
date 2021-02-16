@@ -4,11 +4,13 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome in CoOwnershipManager</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
 @section Scripts
 {
-    <script src="@Url.Content("~/js/HelloReact.jsx")"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/16.13.0/umd/react.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.13.0/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.js"></script>
+    <script src="@Url.Content("~/js/SearchAddress.jsx")"></script>
 }
-@Html.React("HelloReact", new { message = "Hello from cshtml !" })
+@Html.React("SearchAddress", new { })

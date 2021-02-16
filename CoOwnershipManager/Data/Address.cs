@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CoOwnershipManager.Data
 {
@@ -16,6 +17,6 @@ namespace CoOwnershipManager.Data
         public string Country { get; set; }
 
         public virtual Building Building { get; set; }
-
+      
     }
 }

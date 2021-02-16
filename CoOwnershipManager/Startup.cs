@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using React.AspNet;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using JavaScriptEngineSwitcher.ChakraCore;
+using CoOwnershipManager.Extensions;
 
 namespace CoOwnershipManager
 {
@@ -78,6 +79,9 @@ namespace CoOwnershipManager
             // TODO : `services.AddScoped` VS `services.AddSingleton`
             services.AddScoped<IAuthorizationHandler, UserIsAdminAuthorizationHandler>();
 
+
+            // Configure elasticsearch
+            services.AddElasticsearch(Configuration);   
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,7 +113,7 @@ namespace CoOwnershipManager
                 // your components as well as all of their dependencies.
                 // See http://reactjs.net/ for more information. Example:
                 config
-                    .AddScript("~/js/HelloReact.jsx");
+                    .AddScript("~/js/SearchAddress.jsx");
                 //    .AddScript("~/js/Second.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,

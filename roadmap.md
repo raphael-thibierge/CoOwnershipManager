@@ -12,3 +12,5 @@
 - [ ] Application env file
 - [ ] Deploy to production
 - [ ] Implement tests
+- [x] Elastic search Integration
+
