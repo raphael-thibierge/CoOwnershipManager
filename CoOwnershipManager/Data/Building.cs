@@ -12,11 +12,11 @@ namespace CoOwnershipManager.Data
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string StreetName { get; set; }
-        public int StreetNumber { get; set; }
-        public string City { get; set; }
-        public string PostCode { get; set; }
+
+        public int AddressId { get; set; }
+        public Address Address { get; set; }
 
         public virtual ICollection<Apartment> Apartments { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

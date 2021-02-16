@@ -19,6 +19,33 @@ namespace CoOwnershipManager.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+            modelBuilder.Entity("CoOwnershipManager.Data.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StreetName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("StreetNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Zipcode")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("CoOwnershipManager.Data.Apartment", b =>
                 {
                     b.Property<int>("Id")
@@ -31,9 +58,6 @@ namespace CoOwnershipManager.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<int>("Floor")
-                        .HasColumnType("integer");
 
                     b.Property<int>("Number")
                         .HasColumnType("integer");
@@ -70,7 +94,7 @@ namespace CoOwnershipManager.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsAdmin")
+                    b.Property<bool>("IsSuperAdmin")
                         .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
@@ -130,24 +154,49 @@ namespace CoOwnershipManager.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("City")
-                        .HasColumnType("text");
+                    b.Property<int>("AddressId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("PostCode")
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
+                    b.ToTable("Buildings");
+                });
+
+            modelBuilder.Entity("CoOwnershipManager.Data.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("AuthorId")
                         .HasColumnType("text");
 
-                    b.Property<string>("StreetName")
-                        .HasColumnType("text");
-
-                    b.Property<int>("StreetNumber")
+                    b.Property<int>("BuildingId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("PostedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Buildings");
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BuildingId");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -300,9 +349,38 @@ namespace CoOwnershipManager.Migrations
                     b.HasOne("CoOwnershipManager.Data.Apartment", "Apartment")
                         .WithMany("Unhabitants")
                         .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Apartment");
+                });
+
+            modelBuilder.Entity("CoOwnershipManager.Data.Building", b =>
+                {
+                    b.HasOne("CoOwnershipManager.Data.Address", "Address")
+                        .WithOne("Building")
+                        .HasForeignKey("CoOwnershipManager.Data.Building", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("CoOwnershipManager.Data.Post", b =>
+                {
+                    b.HasOne("CoOwnershipManager.Data.ApplicationUser", "Author")
+                        .WithMany("Posts")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CoOwnershipManager.Data.Building", "Building")
+                        .WithMany("Posts")
+                        .HasForeignKey("BuildingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Building");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -356,14 +434,26 @@ namespace CoOwnershipManager.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CoOwnershipManager.Data.Address", b =>
+                {
+                    b.Navigation("Building");
+                });
+
             modelBuilder.Entity("CoOwnershipManager.Data.Apartment", b =>
                 {
                     b.Navigation("Unhabitants");
                 });
 
+            modelBuilder.Entity("CoOwnershipManager.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
             modelBuilder.Entity("CoOwnershipManager.Data.Building", b =>
                 {
                     b.Navigation("Apartments");
+
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

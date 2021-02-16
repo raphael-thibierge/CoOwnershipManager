@@ -31,7 +31,7 @@ namespace CoOwnershipManager.Authorization
             {
                 context.Fail();
             }
-            else if (user.IsAdmin)
+            else if (user.IsSuperAdmin)
             {
                 context.Succeed(requirement);
             }

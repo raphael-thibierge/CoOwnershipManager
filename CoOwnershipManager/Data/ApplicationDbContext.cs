@@ -13,12 +13,19 @@ namespace CoOwnershipManager.Data
         {
         }
 
-        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Address> Addresses { get; set; }
         public DbSet<Apartment> Apartments { get; set; }
+        public DbSet<Building> Buildings { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // building is linked to an address
+            modelBuilder.Entity<Address>()
+                .HasOne<Building>(a => a.Building)
+                .WithOne(b => b.Address);
 
             // building has many appartments
             modelBuilder.Entity<Building>()
@@ -27,12 +34,28 @@ namespace CoOwnershipManager.Data
                 .HasForeignKey(a => a.BuildingId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // building has many posts
+            modelBuilder.Entity<Building>()
+                .HasMany<Post>(b => b.Posts)
+                .WithOne(p => p.Building)
+                .HasForeignKey(p => p.BuildingId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             // Appartment has many unhabitants
             modelBuilder.Entity<Apartment>()
                 .HasMany<ApplicationUser>(a => a.Unhabitants)
                 .WithOne(u => u.Apartment)
-                .HasForeignKey(a => a.ApartmentId)
-                .OnDelete(DeleteBehavior.SetNull); // todo : verify set null
+                .HasForeignKey(u => u.ApartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // User has many posts
+            modelBuilder.Entity<ApplicationUser>()
+                .HasMany<Post>(a => a.Posts)
+                .WithOne(p => p.Author)
+                .HasForeignKey(p => p.AuthorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            
         }
     }
 }
