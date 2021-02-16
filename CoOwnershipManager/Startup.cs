@@ -14,6 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using CoOwnershipManager.Authorization;
+using Microsoft.AspNetCore.Http;
+using React.AspNet;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using JavaScriptEngineSwitcher.ChakraCore;
 
 namespace CoOwnershipManager
 {
@@ -45,8 +49,19 @@ namespace CoOwnershipManager
                 .AddDefaultTokenProviders();
 
 
+            // React
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
+            // Make sure a JS engine is registered, or you will get an error!
+            services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+              .AddChakraCore();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+
+
+
 
             // Doc : https://docs.microsoft.com/fr-fr/aspnet/core/security/authorization/introduction?view=aspnetcore-3.1
             // Configure custom authorizations policies
@@ -89,6 +104,28 @@ namespace CoOwnershipManager
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+
+
+            // Initialise ReactJS.NET. Must be before static files.
+            app.UseReact(config =>
+            {
+                // If you want to use server-side rendering of React components,
+                // add all the necessary JavaScript files here. This includes
+                // your components as well as all of their dependencies.
+                // See http://reactjs.net/ for more information. Example:
+                config
+                    .AddScript("~/js/HelloReact.jsx");
+                //    .AddScript("~/js/Second.jsx");
+
+                // If you use an external build too (for example, Babel, Webpack,
+                // Browserify or Gulp), you can improve performance by disabling
+                // ReactJS.NET's version of Babel and loading the pre-transpiled
+                // scripts. Example:
+                //config
+                //    .SetLoadBabel(false)
+                //    .AddScriptWithoutTransform("~/Scripts/bundle.server.js");
+            });
 
             // Allow to sever statics files, stored in wwwroot, such as images, js, css, etc...
             app.UseStaticFiles();

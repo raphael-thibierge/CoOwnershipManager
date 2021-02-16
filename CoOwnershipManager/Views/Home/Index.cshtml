@@ -6,3 +6,9 @@
     <h1 class="display-4">Welcome in CoOwnershipManager</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/js/HelloReact.jsx")"></script>
+}
+@Html.React("HelloReact", new { message = "Hello from cshtml !" })
