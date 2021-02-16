@@ -10,3 +10,5 @@
 - [x] React components integration
 - [x] Docker-compose
 - [ ] Application env file
+- [ ] Deploy to production
+- [ ] Implement tests

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace CoOwnershipManager.Data
 {
     public class Apartment
@@ -14,5 +16,7 @@ namespace CoOwnershipManager.Data
 
         public int BuildingId { get; set; }
         public Building Building { get; set; }
+
+        public virtual ICollection<ApplicationUser> Unhabitants { get; set; }
     }
 }

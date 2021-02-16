@@ -14,6 +14,9 @@ namespace CoOwnershipManager.Data
         public string LastName { get; set; }
         public bool IsAdmin { get; set; }
 
+        public int? ApartmentId { get; set; }
+        public Apartment Apartment { get; set; }
+
         public static explicit operator ApplicationUser(ClaimsPrincipal v)
         {
             throw new NotImplementedException();
