@@ -13,4 +13,8 @@
 - [ ] Deploy to production
 - [ ] Implement tests
 - [x] Elastic search Integration
+- [ ] API request validation
+- [ ] Refactor ReactCode
+- [ ] propTypes in react components
+- [x] GetStarted feature
 

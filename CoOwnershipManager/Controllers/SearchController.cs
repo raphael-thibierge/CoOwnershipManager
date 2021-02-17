@@ -28,7 +28,7 @@ namespace CoOwnershipManager.Controllers
         }
 
         [Route("Addresses")]
-        public async Task<ActionResult<IEnumerable<Address>>> GetAddresses(string query, int page = 1, int pageSize = 8)
+        public async Task<ActionResult<IEnumerable<Address>>> GetAddresses(string query, int page = 1, int pageSize = 5)
         {
             var response = await _elasticClient.SearchAsync<Address>
         (

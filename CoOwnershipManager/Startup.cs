@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -51,7 +52,13 @@ namespace CoOwnershipManager
             services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
               .AddChakraCore();
 
-            services.AddControllersWithViews();
+            // https://stackoverflow.com/questions/60197270/jsonexception-a-possible-object-cycle-was-detected-which-is-not-supported-this
+            // for error 
+            // JsonException: A possible object cycle was detected. This can either be due to a cycle or if the object depth is larger than the maximum allowed depth of 32. Consider using ReferenceHandler.Preserve on JsonSerializerOptions to support cycles.
+            services.AddControllersWithViews()
+                .AddJsonOptions(option => option.JsonSerializerOptions
+                    .ReferenceHandler = ReferenceHandler.Preserve);
+            
             services.AddRazorPages();
 
 
@@ -113,7 +120,7 @@ namespace CoOwnershipManager
                 // your components as well as all of their dependencies.
                 // See http://reactjs.net/ for more information. Example:
                 config
-                    .AddScript("~/js/SearchAddress.jsx");
+                    .AddScript("~/js/GetStarted.jsx");
                 //    .AddScript("~/js/Second.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,
