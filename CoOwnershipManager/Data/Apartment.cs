@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace CoOwnershipManager.Data
 {
@@ -15,6 +15,9 @@ namespace CoOwnershipManager.Data
         public string Description { get; set; }
 
         public int BuildingId { get; set; }
+        
+        
+        [JsonIgnore]
         public Building Building { get; set; }
         
         

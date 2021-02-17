@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace CoOwnershipManager.Data
 {
@@ -16,6 +17,7 @@ namespace CoOwnershipManager.Data
         public string City { get; set; }
         public string Country { get; set; }
 
+        [JsonIgnore]
         public virtual Building Building { get; set; }
       
     }

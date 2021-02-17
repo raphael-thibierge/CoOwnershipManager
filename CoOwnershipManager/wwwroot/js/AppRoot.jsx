@@ -106,7 +106,7 @@ const  PostRender = (props) => (
                 {props.post.postedAt.replace('T', ' ')}
             </div>
             <div className="col-md-6 text-right">
-                {props.post.authorId}
+                {props.post.author.firstName} {props.post.author.lastName}
             </div>
             </div>
         </div>
@@ -142,21 +142,31 @@ class AppRoot extends React.Component {
     }
 
     componentDidMount() {
-        const xhr = new XMLHttpRequest();
-        xhr.open('get', '/api/User', true);
-        xhr.onload = () => {
-            const data = JSON.parse(xhr.responseText);
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open('get', '/api/User/Apartment', true);
+        xhr1.onload = () => {
+            const data = JSON.parse(xhr1.responseText);
             console.log(data);
-            this.setState({ 
-                user: data,
-                apartment: data.apartment,
-                building: data.apartment.building,
-                address: data.apartment.building.address,
-                posts: data.apartment.building.posts['$values'].reverse(),
-                apartments: data.apartment.building.apartments['$values'],
+            this.setState({
+                apartment: data,
             });
         };
-        xhr.send();
+        xhr1.send();
+        console.log(1);
+        
+        const xhr2 = new XMLHttpRequest();
+        xhr2.open('get', '/api/User/Building', true);
+        xhr2.onload = () => {
+            const data = JSON.parse(xhr2.responseText);
+            console.log(data);
+            this.setState({
+                building: data,
+                address: data.address,
+                posts: data.posts.reverse(),
+                apartments: data.apartments,
+            });
+        };
+        xhr2.send();
     }
     
     onPostCreate = (post) => {
@@ -167,9 +177,9 @@ class AppRoot extends React.Component {
     }
     
     render = () => {
-        if (this.state.user === null){
+        if (this.state.building === null || this.state.apartment === null){
             return <Loader />;
-        }        
+        }
         
         return (
             <div className="row">

@@ -36,7 +36,11 @@ namespace CoOwnershipManager.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Apartment>> GetApartment(int id)
         {
-            var apartment = await _context.Apartments.FindAsync(id);
+            var apartment = await _context.Apartments
+                .Include(a => a.Unhabitants)
+                .Include(a => a.Building)
+                .Include(a => a.Building.Address)
+                .FirstOrDefaultAsync(a => a.Id== id);
 
             if (apartment == null)
             {

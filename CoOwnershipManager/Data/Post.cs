@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+
 namespace CoOwnershipManager.Data
 {
 
@@ -16,6 +18,8 @@ namespace CoOwnershipManager.Data
         public string AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
         public int BuildingId { get; set; }
+        
+        [JsonIgnore]
         public Building Building { get; set; }
 
     }

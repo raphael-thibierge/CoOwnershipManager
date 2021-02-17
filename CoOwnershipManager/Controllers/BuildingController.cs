@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoOwnershipManager.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoOwnershipManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BuildingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,15 +25,8 @@ namespace CoOwnershipManager.Controllers
         
         // GET: api/Building
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Building>>> GetBuildings(int? addressId)
+        public async Task<ActionResult<IEnumerable<Building>>> GetBuildings(int? addressId, int? apartmentId)
         {
-            if (addressId != null)
-            {
-                return await _context.Buildings
-                    .Where(b => b.AddressId == addressId)
-                    .Include(b => b.Apartments)
-                    .ToListAsync();
-            }
             return await _context.Buildings.ToListAsync();
         }
 
@@ -40,7 +35,13 @@ namespace CoOwnershipManager.Controllers
         public async Task<ActionResult<Building>> GetBuilding(int id)
         {
             
-            var building = await _context.Buildings.FindAsync(id);
+            var building = await _context.Buildings
+                .Include(b => b.Address)
+                .Include(b => b.Apartments)
+                .ThenInclude(a => a.Unhabitants)
+                .Include(b => b.Posts)
+                .ThenInclude(p => p.Author)
+                .FirstAsync(b => b.Id == id);
 
             if (building == null)
             {

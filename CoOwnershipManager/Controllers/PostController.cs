@@ -13,7 +13,6 @@ namespace CoOwnershipManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
