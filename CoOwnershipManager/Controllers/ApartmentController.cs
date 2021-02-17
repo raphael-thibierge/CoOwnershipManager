@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoOwnershipManager.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoOwnershipManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ApartmentController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

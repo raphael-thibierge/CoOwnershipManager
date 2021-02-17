@@ -55,6 +55,8 @@ namespace CoOwnershipManager
             // https://stackoverflow.com/questions/60197270/jsonexception-a-possible-object-cycle-was-detected-which-is-not-supported-this
             // for error 
             // JsonException: A possible object cycle was detected. This can either be due to a cycle or if the object depth is larger than the maximum allowed depth of 32. Consider using ReferenceHandler.Preserve on JsonSerializerOptions to support cycles.
+            
+            // TODO : to ugly... find another way 
             services.AddControllersWithViews()
                 .AddJsonOptions(option => option.JsonSerializerOptions
                     .ReferenceHandler = ReferenceHandler.Preserve);
@@ -120,8 +122,8 @@ namespace CoOwnershipManager
                 // your components as well as all of their dependencies.
                 // See http://reactjs.net/ for more information. Example:
                 config
-                    .AddScript("~/js/GetStarted.jsx");
-                //    .AddScript("~/js/Second.jsx");
+                    .AddScript("~/js/GetStarted.jsx")
+                    .AddScript("~/js/AppRoot.jsx");
 
                 // If you use an external build too (for example, Babel, Webpack,
                 // Browserify or Gulp), you can improve performance by disabling

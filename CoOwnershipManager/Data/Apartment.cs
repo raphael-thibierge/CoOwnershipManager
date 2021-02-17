@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace CoOwnershipManager.Data
 {
@@ -15,7 +16,8 @@ namespace CoOwnershipManager.Data
 
         public int BuildingId { get; set; }
         public Building Building { get; set; }
-
-        public virtual ICollection<ApplicationUser> Unhabitants { get; set; }
+        
+        
+        public ICollection<ApplicationUser> Unhabitants { get; set; }
     }
 }

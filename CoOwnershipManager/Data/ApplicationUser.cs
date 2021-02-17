@@ -15,7 +15,7 @@ namespace CoOwnershipManager.Data
         public string LastName { get; set; }
         public bool IsSuperAdmin { get; set; }
 
-        public int? ApartmentId { get; set; }
+        public int ApartmentId { get; set; }
         public Apartment Apartment { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }

@@ -152,8 +152,6 @@ class ApartmentPicker extends React.Component {
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onload = () => {
             const apartment = JSON.parse(xhr.responseText);
-            console.log("apartment");
-            console.log(apartment);
 
             
             let apartments = this.state.apartments;
@@ -399,9 +397,12 @@ class GetStarted extends React.Component {
                         <div className="row ">
                             <div className="col-md-12">
                                 <hr/>
-                                <button className={'btn btn-success col-md-12'} onClick={window.alert('OK !')}>
-                                    Let's start !
-                                </button>
+                                <form id="Join" action={"/Join"} method="post">
+                                    <input type="hidden" name={"ApartmentId"} value={this.state.apartment.id}/>
+                                    <button type="submit" className={'btn btn-success col-md-12'}>
+                                        Let's start !
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     )}

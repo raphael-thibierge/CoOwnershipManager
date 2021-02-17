@@ -1,65 +1,65 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CoOwnershipManager.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace CoOwnershipManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class AddressController : ControllerBase
+    public class PostController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AddressController(ApplicationDbContext context)
+        public PostController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         /*
-        // GET: api/Address
+        // GET: api/Post
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
+        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
         {
-            return await _context.Addresses.ToListAsync();
+            return await _context.Posts.ToListAsync();
         }
         */
 
-        // GET: api/Address/5
+        // GET: api/Post/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Address>> GetAddress(int id)
+        public async Task<ActionResult<Post>> GetPost(int id)
         {
-            var address = await _context.Addresses.Include(a => a.Building)
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var post = await _context.Posts.FindAsync(id);
 
-            if (address == null)
+            if (post == null)
             {
                 return NotFound();
             }
 
-            
-            return address;
+            return post;
         }
 
         /*
-        // PUT: api/Address/5
+        // PUT: api/Post/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress(int id, Address address)
+        public async Task<IActionResult> PutPost(int id, Post post)
         {
-            if (id != address.Id)
+            if (id != post.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(address).State = EntityState.Modified;
+            _context.Entry(post).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace CoOwnershipManager.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AddressExists(id))
+                if (!PostExists(id))
                 {
                     return NotFound();
                 }
@@ -79,38 +79,43 @@ namespace CoOwnershipManager.Controllers
 
             return NoContent();
         }
+        */
 
-        // POST: api/Address
+        // POST: api/Post
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Address>> PostAddress(Address address)
+        public async Task<ActionResult<Post>> PostPost(Post post)
         {
-            _context.Addresses.Add(address);
+            post.AuthorId = _userManager.GetUserId(User);
+            post.PostedAt = DateTime.Now;
+            
+            _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
+            return CreatedAtAction("GetPost", new { id = post.Id }, post);
         }
 
-        // DELETE: api/Address/5
+        /*
+        // DELETE: api/Post/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(int id)
+        public async Task<IActionResult> DeletePost(int id)
         {
-            var address = await _context.Addresses.FindAsync(id);
-            if (address == null)
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
             {
                 return NotFound();
             }
 
-            _context.Addresses.Remove(address);
+            _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
         */
 
-        private bool AddressExists(int id)
+        private bool PostExists(int id)
         {
-            return _context.Addresses.Any(e => e.Id == id);
+            return _context.Posts.Any(e => e.Id == id);
         }
     }
 }

@@ -1,10 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome in CoOwnershipManager</h1>
+@if (ViewBag.apartment == null){
+<div class="row">
+    <div class="col-12">
+        <div class="text-center">
+            <h1 class="display-4">Welcome in CoOwnershipManager</h1>
+        </div>
+    </div>
 </div>
+}
 
 @section Scripts
 {
@@ -12,5 +17,50 @@
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.13.0/umd/react-dom.development.js"></script>
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.js"></script>
     <script src="@Url.Content("~/js/GetStarted.jsx")"></script>
+    <script src="@Url.Content("~/js/AppRoot.jsx")"></script>
 }
-@Html.React("GetStarted", new { })
+
+<style>
+    /*
+     * Sidebar
+     */
+    
+    .sidebar {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100; /* Behind the navbar */
+      padding: 48px 0 0; /* Height of navbar */
+      box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    }
+    
+    .sidebar-sticky {
+      position: relative;
+      top: 0;
+      height: calc(100vh - 48px);
+      padding-top: .5rem;
+      overflow-x: hidden;
+      overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    }
+    
+    .form-control {border-radius: 0!important;}
+    .btn {border-radius: 0!important;}
+    .card {border-radius: 0!important;}
+    .card-header {border-radius: 0!important;}
+    .card-body {border-radius: 0!important;}
+    .card-footer {border-radius: 0!important;}
+    
+</style>
+
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    @if (ViewBag.apartment != null)
+    {
+        @Html.React("AppRoot", new {})
+    }
+    else
+    {
+        @Html.React("GetStarted", new {})
+    }
+}

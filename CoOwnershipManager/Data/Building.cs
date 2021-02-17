@@ -8,6 +8,7 @@ namespace CoOwnershipManager.Data
         public Building()
         {
             this.Apartments = new HashSet<Apartment>();
+            this.Posts = new HashSet<Post>();
         }
 
         public int Id { get; set; }
