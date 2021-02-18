@@ -84,7 +84,7 @@ namespace CoOwnershipManager.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser {
-                    UserName = String.Concat(Input.FirstName,Input.LastName),
+                    UserName = Input.Email,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
