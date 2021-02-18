@@ -290,6 +290,7 @@ const BuildingSelectedRender = (props) => (
         <input
             type="text"
             value={props.building.name}
+            onChange={()=>{}} // to avoid react warning and addign readonly attribute  which disable the field, makint it grey; don't want to play with CSS now 
             className="form-control is-valid" style={{'borderRadius': 0}}
             aria-label="Large" aria-describedby="inputGroup-building-name"
         />
@@ -327,13 +328,15 @@ class GetStarted extends React.Component {
         xhr.open('get', uri, true);
         xhr.onload = () => {
             // todo : improve result request
-            const data = JSON.parse(xhr.responseText)['$values'];
+            const data = JSON.parse(xhr.responseText)
             console.log(data);
+            
             if (data.length > 0){
-                this.setState({ building: data[0], apartment: null, apartments: data[0].apartments['$values'] });
+                this.setState({ building: data[0], apartment: null, apartments: data[0].apartments });
             } else {
                 this.setState({ building: null, apartment:null, apartments: []});
             }
+            
         };
         xhr.send();
     }
