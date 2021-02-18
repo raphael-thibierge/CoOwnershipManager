@@ -9,14 +9,16 @@
 - [ ] code documentation 
 - [ ] Application env file
 - [ ] Deploy to production
+- [ ] Check and fix Warnings
+- [ ] Admin backend
 
 ## Backend 
 - [x] Implement complete schema
 - [x] Postgres instead of SQLite
 - [x] Override Identity views (login, register, profil,...)
-- [ ] Implement users's roles<
-- [ ] Improve IsAdmin authorization, using Role or Claim, without manually querring database
+- [x] Implement users's authorizations
 - [ ] API request validation
+- [ ] Improve search results...
 
 ## Frontend
 - [x] Update profile form to display and update `ApplicationUser`attributes

@@ -12,14 +12,13 @@ namespace CoOwnershipManager.Data
         public ApplicationUser(): base()
         {
         }
-
-        [DataMember]
-        public override string Id { get; set; }
-
+        
         [DataMember]
         public string FirstName { get; set; }
         [DataMember]
         public string LastName { get; set; }
+    
+        public string Name => String.Concat(FirstName, " ", LastName);
         
         public bool IsSuperAdmin { get; set; }
         

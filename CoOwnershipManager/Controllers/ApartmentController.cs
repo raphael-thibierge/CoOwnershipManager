@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoOwnershipManager.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,12 @@ namespace CoOwnershipManager.Controllers
     public class ApartmentController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IAuthorizationService _authorizationService;
 
-        public ApartmentController(ApplicationDbContext context)
+        public ApartmentController(ApplicationDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         /*
@@ -34,6 +37,7 @@ namespace CoOwnershipManager.Controllers
 
         // GET: api/Apartment/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Apartment>> GetApartment(int id)
         {
             var apartment = await _context.Apartments
@@ -42,13 +46,17 @@ namespace CoOwnershipManager.Controllers
                 .Include(a => a.Building.Address)
                 .FirstOrDefaultAsync(a => a.Id== id);
 
-            if (apartment == null)
-            {
+            if (apartment == null) 
                 return NotFound();
-            }
+
+            // check if user has access to apartment before sending infos
+            var check = await _authorizationService.AuthorizeAsync(User, apartment, new ApartmentMemberRequirement());
+            if (!check.Succeeded)
+                return Unauthorized();
 
             return apartment;
         }
+        
         /*
          
         // PUT: api/Apartment/5

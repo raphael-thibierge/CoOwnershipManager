@@ -77,14 +77,13 @@ namespace CoOwnershipManager
 
                 // IsAdmin policy
                 options.AddPolicy("IsAdmin", policy =>
-                    policy.AddRequirements(new UserIsAdminRequirements())  
-                );
+                    policy.Requirements.Add(new UserIsAdminRequirements()));
             });
 
-            // Register IsAdmin policy handler
-            // TODO : `services.AddScoped` VS `services.AddSingleton`
+            services.AddScoped<IAuthorizationHandler, BuildingMemberAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, ApartmentMemberAuthorizationHandler>();
             services.AddScoped<IAuthorizationHandler, UserIsAdminAuthorizationHandler>();
-
+            
 
             // Configure elasticsearch
             services.AddElasticsearch(Configuration);   
@@ -160,11 +159,17 @@ namespace CoOwnershipManager
             // It runs the delegate associated with the selected endpoint.
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "admin",
+                    pattern: "/admin/{controller=Home}/{action=Index}/{id?}");
+                
                 // define path pattern to match the good controller's method
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                
                 endpoints.MapRazorPages();
+                
             });
         }
     }

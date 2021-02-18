@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoOwnershipManager.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,12 @@ namespace CoOwnershipManager.Controllers
     public class BuildingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IAuthorizationService _authorizationService;
 
-        public BuildingController(ApplicationDbContext context)
+        public BuildingController(ApplicationDbContext context, IAuthorizationService authorizationService)
         {
             _context = context;
+            _authorizationService = authorizationService;
         }
 
         
@@ -48,14 +51,33 @@ namespace CoOwnershipManager.Controllers
                 .ThenInclude(a => a.Unhabitants)
                 .Include(b => b.Posts)
                 .ThenInclude(p => p.Author)
-                .FirstAsync(b => b.Id == id);
+                .FirstOrDefaultAsync(b => b.Id == id);
 
             if (building == null)
-            {
                 return NotFound();
-            }
 
-            return building;
+            // check authorization, and return all data if is a building member
+            var authorization =
+                await _authorizationService.AuthorizeAsync(User, building, new BuildingMemberRequirement());
+            if (authorization.Succeeded)
+                return building;
+            
+
+            // else , return only few data
+            // TODO : use DTO model
+            return new Building()
+            {
+                Id = building.Id,
+                Name = building.Name,
+                Address = building.Address,
+                Apartments = building.Apartments.Select(a => new Apartment()
+                {
+                    Number = a.Number,
+                    Description = a.Description,
+                    BuildingId = a.BuildingId,
+                    Id = a.Id
+                }).ToList()
+            };
         }
 
         /*

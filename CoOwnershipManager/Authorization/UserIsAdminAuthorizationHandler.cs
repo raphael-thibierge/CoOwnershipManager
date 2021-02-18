@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CoOwnershipManager.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -11,20 +12,18 @@ namespace CoOwnershipManager.Authorization
     public class UserIsAdminAuthorizationHandler: AuthorizationHandler<UserIsAdminRequirements>
     {
 
-        UserManager<ApplicationUser> _userManager;
-        ApplicationDbContext _dbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserIsAdminAuthorizationHandler(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+        public UserIsAdminAuthorizationHandler(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _dbContext = dbContext;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserIsAdminRequirements requirement)
+        protected override async Task<Task> HandleRequirementAsync(AuthorizationHandlerContext context, UserIsAdminRequirements requirement)
         {
 
             // TODO : Find a way to get ApplicationUser from context without a DB query (if possible)
-            var user = _dbContext.Users.Find(_userManager.GetUserId(context.User));
+            var user = await _userManager.GetUserAsync(context.User);
 
             // TODO : Find a way to avoid anonymous users in this handler
             if (user == null)

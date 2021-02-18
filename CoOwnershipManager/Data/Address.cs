@@ -17,6 +17,9 @@ namespace CoOwnershipManager.Data
         public string City { get; set; }
         public string Country { get; set; }
 
+        public string FullAddressString =>
+            String.Concat(StreetNumber.ToString(), " ", StreetName, " ", Zipcode, " ", City);
+
         [JsonIgnore]
         public virtual Building Building { get; set; }
       

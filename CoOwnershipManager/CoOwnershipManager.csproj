@@ -40,5 +40,58 @@
     <Folder Include="Migrations\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\" />
+    <Folder Include="Controllers\Admin\" />
+  </ItemGroup>
+   
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\ApplicationUserAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\ApplicationUserAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\ApplicationUserAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\ApplicationUserAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\ApplicationUserAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\BuildingAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\BuildingAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\BuildingAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\BuildingAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\BuildingAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\AddressAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\AddressAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\AddressAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\AddressAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\AddressAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\PostAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\PostAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\PostAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\PostAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\PostAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApartmentAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApartmentAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApartmentAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApartmentAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApartmentAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApplicationUserAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApplicationUserAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApplicationUserAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApplicationUserAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\ApplicationUserAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\BuildingAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\BuildingAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\BuildingAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\BuildingAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\BuildingAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\PostAdmin\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\PostAdmin\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\PostAdmin\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\PostAdmin\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\PostAdmin\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Pages\AddressAdmin\Delete.cshtml" />
+  </ItemGroup>
+   
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\ApplicationUserAdmin\Create.cshtml" />
+    <UpToDateCheckInput Remove="Views\ApplicationUserAdmin\Delete.cshtml" />
+    <UpToDateCheckInput Remove="Views\ApplicationUserAdmin\Details.cshtml" />
+    <UpToDateCheckInput Remove="Views\ApplicationUserAdmin\Edit.cshtml" />
+    <UpToDateCheckInput Remove="Views\ApplicationUserAdmin\Index.cshtml" />
   </ItemGroup>
 </Project>

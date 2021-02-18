@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoOwnershipManager.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,13 @@ namespace CoOwnershipManager.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public PostController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly IAuthorizationService _authorizationService;
+        
+        public PostController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IAuthorizationService authorizationService)
         {
             _context = context;
             _userManager = userManager;
+            _authorizationService = authorizationService;
         }
 
         /*
@@ -32,13 +35,15 @@ namespace CoOwnershipManager.Controllers
             return await _context.Posts.ToListAsync();
         }
         */
-
+        
         // GET: api/Post/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
             var post = await _context.Posts.FindAsync(id);
-
+            var check = await _authorizationService.AuthorizeAsync(User, post, new BuildingMemberRequirement());
+            if (!check.Succeeded)
+                return Unauthorized();
             if (post == null)
             {
                 return NotFound();
@@ -85,6 +90,17 @@ namespace CoOwnershipManager.Controllers
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(Post post)
         {
+            // check building exists
+            if (!_context.Buildings.Any(b => b.Id==post.BuildingId))
+                return BadRequest("Building not found..."); // TODO find the appropriate HTTP code..
+            
+            // current user has to be a building member to create a new post on the building wall
+            var check = await _authorizationService.AuthorizeAsync(User, new Building() {Id = post.BuildingId},
+                new BuildingMemberRequirement());
+            if (!check.Succeeded)
+                return Unauthorized();
+            
+            // complete creation process and save  
             post.AuthorId = _userManager.GetUserId(User);
             post.PostedAt = DateTime.Now;
             

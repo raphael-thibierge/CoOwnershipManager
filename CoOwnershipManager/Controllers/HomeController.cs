@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CoOwnershipManager.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -47,12 +48,20 @@ namespace CoOwnershipManager.Controllers
         [Authorize]
         public async Task<IActionResult> Join(int apartmentId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            // check if apartment exists 
+            var apartment = _context.Apartments.Find(apartmentId);
+            if (apartment == null)
+                return NotFound(); // todo : not sure it's the appropriate http status code
+            
+            // get user
+            var currentUser = await _userManager.GetUserAsync(User);
+            
+            // set user's apartment 
+            currentUser.Apartment = apartment;
 
-            user.ApartmentId = apartmentId;
-
+            // save
             await _context.SaveChangesAsync();
-
+            
             return Redirect("/");
         }
 
