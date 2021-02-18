@@ -25,9 +25,16 @@ namespace CoOwnershipManager.Controllers
         
         // GET: api/Building
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Building>>> GetBuildings(int? addressId, int? apartmentId)
+        public async Task<ActionResult<IEnumerable<Building>>> GetBuildings(int? addressId)
         {
-            return await _context.Buildings.ToListAsync();
+            var query = _context.Buildings
+                .Include(b=>b.Address)
+                .Include(b=>b.Apartments); // could represent a leak of information... but it's a prototype..
+            
+            if (addressId != null)
+                return await query.Where(b => b.AddressId == addressId).ToListAsync();
+
+            return await query.ToListAsync();
         }
 
         // GET: api/Building/5
@@ -111,10 +118,12 @@ namespace CoOwnershipManager.Controllers
 
             return NoContent();
         }
-        */
+        
         private bool BuildingExists(int id)
         {
             return _context.Buildings.Any(e => e.Id == id);
         }
+        
+        */
     }
 }

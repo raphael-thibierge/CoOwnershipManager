@@ -23,7 +23,7 @@ namespace CoOwnershipManager.Data
         
         public bool IsSuperAdmin { get; set; }
         
-        public int ApartmentId { get; set; }
+        public int? ApartmentId { get; set; }
         
         public Apartment Apartment { get; set; }
         

@@ -12,4 +12,4 @@
 - [x] Understand differences between core 3.1 vs 5.0 to avoid confusion between versions and namings
 - [ ] Env management
 - [ ] entity relation and navigation
-- [ ] Query builder 
+- [ ] LINQ in depth
