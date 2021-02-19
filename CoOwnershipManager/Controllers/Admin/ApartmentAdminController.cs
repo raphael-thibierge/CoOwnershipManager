@@ -24,7 +24,10 @@ namespace CoOwnershipManager.Controllers.Admin
         // GET: ApartmentAdmin
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Apartments.Include(a => a.Building);
+            var applicationDbContext = _context.Apartments
+                .Include(a => a.Building)
+                .Include(a => a.Building.Address)
+                ;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -38,6 +41,8 @@ namespace CoOwnershipManager.Controllers.Admin
 
             var apartment = await _context.Apartments
                 .Include(a => a.Building)
+                .Include(a => a.Building.Address)
+                .Include(a => a.Unhabitants)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (apartment == null)
             {

@@ -10,7 +10,7 @@
 - [ ] Application env file
 - [ ] Deploy to production
 - [ ] Check and fix Warnings
-- [ ] Admin backend
+- [x] Admin backend
 
 ## Backend 
 - [x] Implement complete schema
@@ -19,6 +19,7 @@
 - [x] Implement users's authorizations
 - [ ] API request validation
 - [ ] Improve search results...
+- [ ] ModelView for ApplicationUser... security issues...
 
 ## Frontend
 - [x] Update profile form to display and update `ApplicationUser`attributes

@@ -24,7 +24,7 @@ namespace CoOwnershipManager.Controllers.Admin
         // GET: AddressAdmin
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Addresses.ToListAsync());
+            return View(await _context.Addresses.Take(100).ToListAsync()); // TODO : use pagination
         }
 
         // GET: AddressAdmin/Details/5

@@ -38,6 +38,10 @@ namespace CoOwnershipManager.Controllers.Admin
 
             var building = await _context.Buildings
                 .Include(b => b.Address)
+                .Include(b => b.Apartments)
+                .ThenInclude(a => a.Unhabitants)
+                .Include(b => b.Posts)
+                .ThenInclude(p => p.Author)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (building == null)
             {
